@@ -33,6 +33,6 @@ apply:
   stage: apply
   script:
     - terraform apply -input=false "planfile"
-  when: manual
+  # when: manual
   dependencies:
     - plan
