@@ -10,16 +10,10 @@ before_script:
   - terraform init
 
 stages:
-  - destroy
   - validate
   - plan
   - apply
-
-destroy:
-  stage: destroy
-  script:
-    - terraform destroy -auto-approve
-  when: manual
+  - destroy
 
 validate:
   stage: validate
@@ -44,3 +38,8 @@ apply:
   dependencies:
     - plan
 
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve
+  when: manual
