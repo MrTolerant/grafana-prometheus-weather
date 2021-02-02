@@ -39,8 +39,8 @@ resource "azurerm_virtual_machine" "main" {
     name              = "${var.VM_NAME}-OS"
     caching           = "ReadWrite"
     create_option     = "FromImage"
-    managed_disk_type = "StandardSSD_LRS"
-    disk_size_gb      = 32
+    managed_disk_type = "Standard_LRS"
+    disk_size_gb      = 15
   }
 
   os_profile {
@@ -93,7 +93,7 @@ resource "azurerm_network_security_group" "main" {
     tags                = azurerm_resource_group.main.tags
     security_rule {
         name                       = "ssh"
-        priority                   = 22
+        priority                   = 101
         direction                  = "Inbound"
         access                     = "Allow"
         protocol                   = "Tcp"
@@ -103,13 +103,13 @@ resource "azurerm_network_security_group" "main" {
         destination_address_prefix = "*"
     }
     security_rule {
-        name                        = "web"
-        priority                    = 80
+        name                        = "docker"
+        priority                    = 102
         direction                   = "Inbound"
         access                      = "Allow"
         protocol                    = "Tcp"
         source_port_range           = "*"
-        destination_port_range      = "3000"
+        destination_port_range      = "80"
         source_address_prefix       = "*"
         destination_address_prefix  = "*"
     }
