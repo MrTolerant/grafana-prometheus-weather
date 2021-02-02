@@ -13,6 +13,7 @@ stages:
   - validate
   - plan
   - apply
+  - destroy
 
 validate:
   stage: validate
@@ -36,3 +37,9 @@ apply:
   # when: manual
   dependencies:
     - plan
+
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve
+  when: manual
