@@ -81,5 +81,37 @@ resource "azurerm_public_ip" "main" {
   name                = "${var.VM_NAME}-publicip01"
   resource_group_name = azurerm_resource_group.main.name
   location            = azurerm_resource_group.main.location
-  allocation_method   = "Static"
+  allocation_method   = "Dynamic"
+  domain_name_label   = "grafana-prometheus-weather"
 }
+
+# Network security rules
+resource "azurerm_network_security_group" "main" {
+    name                = "testNetworkSecurityGroup"
+    location            = azurerm_resource_group.main.location
+    resource_group_name = azurerm_resource_group.main.name
+    tags                = azurerm_resource_group.main.tags
+    security_rule {
+        name                       = "ssh"
+        priority                   = 22
+        direction                  = "Inbound"
+        access                     = "Allow"
+        protocol                   = "Tcp"
+        source_port_range          = "*"
+        destination_port_range     = "22"
+        source_address_prefix      = "*"
+        destination_address_prefix = "*"
+    }
+    security_rule {
+        name                        = "web"
+        priority                    = 80
+        direction                   = "Inbound"
+        access                      = "Allow"
+        protocol                    = "Tcp"
+        source_port_range           = "*"
+        destination_port_range      = "3000"
+        source_address_prefix       = "*"
+        destination_address_prefix  = "*"
+    }
+}
+
