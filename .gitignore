@@ -11,3 +11,4 @@ override.tf.json
 terraform.rc
 .env
 .terraform
+.terraform.lock.hcl

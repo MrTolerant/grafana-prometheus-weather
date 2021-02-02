@@ -8,7 +8,6 @@ before_script:
   - rm -rf .terraform
   - terraform --version
   - terraform init
-  - terraform force-unlock -force 242b4fa5-ecf8-0458-6c7d-788ff712bfe4 -force
 
 stages:
   - validate
