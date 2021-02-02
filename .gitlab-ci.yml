@@ -18,7 +18,7 @@ stages:
 validate:
   stage: validate
   script:
-    - terraform validate -compact-warnings
+    - terraform validate
 
 plan:
   stage: plan
