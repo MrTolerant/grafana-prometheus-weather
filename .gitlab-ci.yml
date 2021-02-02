@@ -35,6 +35,9 @@ apply:
   script:
     - terraform apply -compact-warnings -input=false "planfile"
   # when: manual
+  artifacts:
+    paths:
+      - ./host.txt
   dependencies:
     - plan
 
