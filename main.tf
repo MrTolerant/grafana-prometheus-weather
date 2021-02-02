@@ -51,7 +51,7 @@ resource "azurerm_virtual_machine" "main" {
   os_profile_linux_config {
     disable_password_authentication = true
     ssh_keys {
-      key_data = var.DEFAULT_SSHKEY
+      key_data = "${var.DEFAULT_SSHKEY}"
       path     = "/home/azure-admin/.ssh/authorized_keys"
     }
   }
