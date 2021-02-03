@@ -10,6 +10,12 @@ resource "azurerm_virtual_machine" "main" {
   provisioner "file" {
     source      = "../docker/"
     destination = "/tmp/docker/"
+  
+    connection {
+      user     = var.VM_ADMIN
+      password = var.SSH_PRIVATE
+      host     = azurerm_public_ip.main.fqdn
+    }
   }
 
   storage_image_reference {

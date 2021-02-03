@@ -13,3 +13,7 @@ variable "LOCATION" {
 variable "DEFAULT_SSHKEY" {
   default = "yourpublicsshkey"
 }
+
+variable "SSH_PRIVATE" {
+  default = "yourprivatesshkey"
+}
