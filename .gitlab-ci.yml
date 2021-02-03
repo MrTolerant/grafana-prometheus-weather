@@ -47,13 +47,13 @@ apply:
 
 deploy:
   stage: deploy
-  before_script: []
-  script:
+  before_script:
+    - pwd
     - ls
-    - docker -v
-    - docker-compose -v
+    - docker info
+  script:
     - cd docker
-    - docker-compose up -d
+    - sudo docker-compose up -d
   tags:
     - azure
 
