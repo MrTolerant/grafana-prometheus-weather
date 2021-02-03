@@ -7,19 +7,6 @@ resource "azurerm_virtual_machine" "main" {
   network_interface_ids = [azurerm_network_interface.main.id]
   vm_size               = "Standard_B1ms"
 
-#  provisioner "file" {
-#    source      = "../docker/"
-#    destination = "/tmp/docker/"
-#  
-#    connection {
-#      agent    = false
-#      user     = var.VM_ADMIN
-#      password = "${var.SSH_PRIVATE}"
-#      host     = azurerm_public_ip.main.ip_address # azurerm_public_ip.main.fqdn
-#      timeout  = "5m"
-#    }
-#  }
-
   storage_image_reference {
     publisher = "canonical"
     offer     = "0001-com-ubuntu-server-focal"
@@ -38,7 +25,7 @@ resource "azurerm_virtual_machine" "main" {
   os_profile {
     computer_name  = var.VM_NAME
     admin_username = var.VM_ADMIN
-    custom_data = base64encode(file("cloudinit.yml"))
+    custom_data = base64encode(templatefile("cloudinit.yml",{ token   = var.GITLAB_RUNNER_TOKEN }))
   }
 
   os_profile_linux_config {

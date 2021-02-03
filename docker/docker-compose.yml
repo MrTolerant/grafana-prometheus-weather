@@ -9,16 +9,15 @@ services:
     ports:
       - 9091:9091
     environment:
-      - OW_CITY=Tallin
-      - OW_DEGREES_UNIT=C
-      - OW_APIKEY=cb33357e4410403486d872416862b6fb
+      - OW_CITY=${OW_CITY}
+      - OW_DEGREES_UNIT=${OW_DEGREES_UNIT}
+      - OW_APIKEY=${OW_APIKEY}
 
   prometheus:
     image: prom/prometheus:v2.24.1
     depends_on:
       - openweather-exporter
     volumes:
-      # - ./data/prometheus:/prometheus
       - ./prometheus:/etc/prometheus/
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -35,7 +34,6 @@ services:
       - 80:3000
     user: "104"
     volumes:
-      # - ./data/grafana:/var/lib/grafana
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     restart: always

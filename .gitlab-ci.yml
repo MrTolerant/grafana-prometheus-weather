@@ -1,3 +1,10 @@
+variables:
+  TF_VAR_VM_ADMIN: azure-admin
+  TF_VAR_LOCATION: West Europe
+  TF_VAR_GITLAB_RUNNER_TOKEN: xhMJpfQGpQ52FgUT1g8K
+  OW_CITY: Tallin
+  OW_DEGREES_UNIT: C
+      
 image:
   name: hashicorp/terraform:0.14.3
   entrypoint:
@@ -16,34 +23,34 @@ stages:
   - apply
   - deploy
 
-# destroy:
-#   stage: destroy
-#   script:
-#     - terraform destroy -auto-approve
-#   # when: manual
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve
+  # when: manual
 
-# validate:
-#   stage: validate
-#   script:
-#     - terraform validate
+validate:
+  stage: validate
+  script:
+    - terraform validate
 
-# plan:
-#   stage: plan
-#   script:
-#     - terraform plan -compact-warnings -out "planfile"
-#   dependencies:
-#     - validate
-#   artifacts:
-#     paths:
-#       - ./terraform/planfile
+plan:
+  stage: plan
+  script:
+    - terraform plan -compact-warnings -out "planfile"
+  dependencies:
+    - validate
+  artifacts:
+    paths:
+      - ./terraform/planfile
 
-# apply:
-#   stage: apply
-#   script:
-#     - terraform apply -compact-warnings -input=false "planfile"
-#   # when: manual
-#   dependencies:
-#     - plan
+apply:
+  stage: apply
+  script:
+    - terraform apply -compact-warnings -input=false "planfile"
+  # when: manual
+  dependencies:
+    - plan
 
 deploy:
   stage: deploy
@@ -51,7 +58,6 @@ deploy:
   script:
     - pwd
     - cd docker
-    - docker-compose down
     - docker-compose up -d
   tags:
     - azure

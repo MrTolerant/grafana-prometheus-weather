@@ -1,7 +1,9 @@
 # grafana-prometheus-weather
-http://grafana-prometheus-weather.westeurope.cloudapp.azure.com:9091/metrics
-http://grafana-prometheus-weather.westeurope.cloudapp.azure.com:9090
-http://grafana-prometheus-weather.westeurope.cloudapp.azure.com:3000
+metrics http://grafana-prometheus-weather.westeurope.cloudapp.azure.com:9091/metrics
+prometheus http://grafana-prometheus-weather.westeurope.cloudapp.azure.com:9090
+grafana http://grafana-prometheus-weather.westeurope.cloudapp.azure.com
+  user = "openweather123"
+  password = "openweather123"
 
 1. You need to create an Azure service principal to run Terraform in GitHub Actions.
     ```
