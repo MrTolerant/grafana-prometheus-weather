@@ -9,41 +9,41 @@ before_script:
   - rm -rf .terraform
   - terraform init
 
-# stages:
-#   - destroy
-#   - validate
-#   - plan
-#   - apply
-#   - deploy
+stages:
+  - destroy
+  - validate
+  - plan
+  - apply
+  - deploy
 
-# destroy:
-#   stage: destroy
-#   script:
-#     - terraform destroy -auto-approve
-#   # when: manual
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve
+  # when: manual
 
-# validate:
-#   stage: validate
-#   script:
-#     - terraform validate
+validate:
+  stage: validate
+  script:
+    - terraform validate
 
-# plan:
-#   stage: plan
-#   script:
-#     - terraform plan -compact-warnings -out "planfile"
-#   dependencies:
-#     - validate
-#   artifacts:
-#     paths:
-#       - ./terraform/planfile
+plan:
+  stage: plan
+  script:
+    - terraform plan -compact-warnings -out "planfile"
+  dependencies:
+    - validate
+  artifacts:
+    paths:
+      - ./terraform/planfile
 
-# apply:
-#   stage: apply
-#   script:
-#     - terraform apply -compact-warnings -input=false "planfile"
-#   # when: manual
-#   dependencies:
-#     - plan
+apply:
+  stage: apply
+  script:
+    - terraform apply -compact-warnings -input=false "planfile"
+  # when: manual
+  dependencies:
+    - plan
 
 deploy:
   stage: deploy
@@ -51,10 +51,10 @@ deploy:
     - pwd
     - ls
   script:
-    - mkdir -p /work
-    - cp -r docker /work
+    - sudo mkdir -p /work
+    - sudo mv docker /work
     - cd /work
-    - docker-compose up -d
+    - sudo docker-compose up -d
   tags:
     - azure
 

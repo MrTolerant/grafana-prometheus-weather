@@ -26,7 +26,8 @@ packages:
    - ca-certificates
 
 runcmd:
-  - mkdir -p -m 0755 /work
   - curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
   - sudo apt-get install gitlab-runner -y
   - sudo gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "xhMJpfQGpQ52FgUT1g8K"   --description "shell-runner"  --tag-list "azure,prod"   --run-untagged="false" --locked="false"
+  - sudo rm -rf /home/gitlab-runner/*.*
+
