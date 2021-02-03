@@ -14,6 +14,7 @@ stages:
   - validate
   - plan
   - apply
+  - deploy
 
 destroy:
   stage: destroy
@@ -41,8 +42,15 @@ apply:
   script:
     - terraform apply -compact-warnings -input=false "planfile"
   # when: manual
-  artifacts:
-    paths:
-      - ./host.txt
   dependencies:
     - plan
+
+deploy:
+  stage: deploy
+  script:
+    - ls
+    - docker -v
+    - docker-compose -v
+  tags:
+    - azure
+

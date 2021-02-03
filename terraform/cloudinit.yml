@@ -17,15 +17,14 @@ users:
       groups: docker
 
 runcmd:
-  - |
-    gitlab-runner register
-    --non-interactive
-    --executor "shell"
-    --docker-image alpine:latest
-    --url "https://gitlab.com/"
-    --registration-token "xhMJpfQGpQ52FgUT1g8K"
-    --description "shell-runner"
-    --tag-list "azure,prod"
-    --run-untagged="true"
-    --locked="false"
-    --access-level="not_protected"
+  - gitlab-runner register
+      --non-interactive
+      --executor "shell"
+      --docker-image alpine:latest
+      --url "https://gitlab.com/"
+      --registration-token "xhMJpfQGpQ52FgUT1g8K"
+      --description "shell-runner"
+      --tag-list "azure,prod"
+      --run-untagged="true"
+      --locked="false"
+      --access-level="not_protected"
