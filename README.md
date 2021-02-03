@@ -6,7 +6,7 @@
 
 1. Clone this repo to New GitLab project.
 2. Create free Azure account https://azure.microsoft.com/
-3. install config utility ```az``` from https://docs.microsoft.com/ru-ru/cli/azure/install-azure-cli
+3. Install Azure config utility ```az``` from https://docs.microsoft.com/ru-ru/cli/azure/install-azure-cli
 4. You need to create an Azure service principal to deploy Azure VM with Terraform and GitLab.
     ```
     az login
@@ -18,8 +18,7 @@
   az storage account create -n tfacc -g terraform -l northcentralus --sku Standard_LRS
   az storage container create -n terraform-state --account-name tfacc
   ```
-6. You need to create free account and token from openweathermap.org
-    save API key
+6. You need to create OpenWeather free account at https://openweathermap.org/. And get API token from https://home.openweathermap.org/api_keys
 
 7. Open gitlab projecct. 
    Paste variables to Settings >> CI/CD >> Variables
