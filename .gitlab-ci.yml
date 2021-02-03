@@ -52,7 +52,7 @@ deploy:
     - ls
   script:
     - mkdir -p /work
-    - mv docker /work
+    - cp docker /work
     - cd /work
     - docker-compose up -d
   tags:
