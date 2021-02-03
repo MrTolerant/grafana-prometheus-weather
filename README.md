@@ -6,7 +6,7 @@ grafana http://grafana-prometheus-weather.westeurope.cloudapp.azure.com
   password = "openweather123"
 
 1. Clone this repo to New GitLab project.
-2. You need to create an Azure service principal to run Terraform in GitHub Actions.
+2. You need to create an Azure service principal to deploy Azure VM with Terraform and GitLab.
     ```
     az login
     az ad sp create-for-rbac --name "terraform" --role Contributor --scopes /subscriptions/YOU_SUBSCRIPTION_ID --sdk-auth
