@@ -18,7 +18,7 @@ services:
     depends_on:
       - openweather-exporter
     volumes:
-      - /work/prometheus:/etc/prometheus/
+      - ./prometheus:/etc/prometheus/
       - /work/data/prometheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -41,7 +41,7 @@ services:
     user: "104"
     volumes:
       - /work/data/grafana:/var/lib/grafana
-      - /work/grafana/provisioning/:/etc/grafana/provisioning/
-      - /work/grafana/grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     restart: always
     logging: *logging
