@@ -1,7 +1,8 @@
 variables:
+  TF_VAR_VM_DOMAIN_NAME: grafana-prometheus-weather
+  TF_VAR_VM_NAME: TestVM
   TF_VAR_VM_ADMIN: azure-admin
   TF_VAR_LOCATION: West Europe
-  TF_VAR_GITLAB_RUNNER_TOKEN: xhMJpfQGpQ52FgUT1g8K
   OW_CITY: Tallin
   OW_DEGREES_UNIT: C
       

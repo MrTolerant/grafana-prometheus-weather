@@ -17,3 +17,7 @@ variable "DEFAULT_SSHKEY" {
 variable "GITLAB_RUNNER_TOKEN" {
   default = "yougitlabrunnertoken"
 }
+
+variable "VM_DOMAIN_NAME" {
+  default = "grafana-prometheus-weather"
+}
