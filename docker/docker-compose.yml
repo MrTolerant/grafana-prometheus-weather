@@ -18,19 +18,14 @@ services:
     depends_on:
       - openweather-exporter
     volumes:
-      - ./prometheus:/etc/prometheus/
-      - /work/data/prometheus:/prometheus
+      - ./prometheus:/etc/prometheus/:Z
+      - ./data/prometheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
     ports:
       - 9090:9090
     restart: always
-    logging: &logging
-      driver: "json-file"
-      options:
-        max-size: "1m"
-        max-file: "1"
 
   grafana:
     image: grafana/grafana:6.6.1
@@ -40,8 +35,7 @@ services:
       - 80:3000
     user: "104"
     volumes:
-      - /work/data/grafana:/var/lib/grafana
+      - ./data/grafana:/var/lib/grafana:Z
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     restart: always
-    logging: *logging

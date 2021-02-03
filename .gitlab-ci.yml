@@ -50,10 +50,6 @@ deploy:
   before_script: []
   script:
     - pwd
-    - ls
-    # - sudo mkdir -p /work
-    # - sudo mv docker /work
-    # - cd /work
     - cd docker
     - docker-compose up -d
   tags:
