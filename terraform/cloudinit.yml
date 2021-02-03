@@ -2,7 +2,8 @@
 package_update: true
 
 packages:
-    - docker.io
+    # - docker.io
+    - docker-ce
     - docker-compose
 
 # create the docker group
@@ -17,9 +18,9 @@ users:
       groups: docker
 
 runcmd:
-  - mkdir -p -m 655 /work
+  - mkdir -p -m 0755 /work
   - curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
-  - export GITLAB_RUNNER_DISABLE_SKEL=true; sudo -E apt-get install gitlab-runner
+  - export GITLAB_RUNNER_DISABLE_SKEL=true; sudo -E apt-get install gitlab-runner --user=gitlab-runner --working-directory=/work
   - sudo gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "xhMJpfQGpQ52FgUT1g8K"   --description "shell-runner"  --tag-list "azure,prod"   --run-untagged="false" --locked="false"
   - sudo usermod -aG docker gitlab-runner
   - sudo service docker restart
