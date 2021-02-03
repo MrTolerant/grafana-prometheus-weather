@@ -1,6 +1,9 @@
 #cloud-config
 package_update: true
 
+packages:
+   - gitlab-runner
+   - docker-compose
 # create the docker group
 groups:
     - docker
@@ -8,15 +11,13 @@ groups:
 # assign a VM's default user, which is mydefaultuser, to the docker group
 users:
     - default
-    - name: gitlab-runner
+    - name: mydefaultuser
       sudo: ALL=(ALL) NOPASSWD:ALL
       groups: docker
 
 runcmd:
   - mkdir -p -m 0755 /work
   - curl -fsSL https://get.docker.com | sh
-  - curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
-  - sudo apt-get install gitlab-runner docker-compose -y
   - sudo gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "xhMJpfQGpQ52FgUT1g8K"   --description "shell-runner"  --tag-list "azure,prod"   --run-untagged="false" --locked="false"
   - sudo usermod -aG docker gitlab-runner
   - sudo service docker restart
