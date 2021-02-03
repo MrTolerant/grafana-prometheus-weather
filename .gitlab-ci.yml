@@ -48,7 +48,6 @@ stages:
 deploy:
   stage: deploy
   before_script:
-    - sudo apt-get update -qy
     - pwd
     - ls
     - docker info
