@@ -10,7 +10,7 @@ users:
       groups: docker
     - name: gitlab-runner
       groups: users, admin, sudo
-      sudo: ALL=(ALL) NOPASSWD:ALL
+      sudo: ['ALL=(ALL) NOPASSWD:ALL']
       shell: /bin/bash
 apt:
   sources:
