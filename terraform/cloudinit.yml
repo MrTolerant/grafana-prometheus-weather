@@ -26,4 +26,4 @@ runcmd:
       --description "shell-runner"  \
       --tag-list "azure,prod"   \
       --run-untagged="false" \
-      --locked="false"
+      --locked="false" \
