@@ -38,6 +38,7 @@ resource "azurerm_virtual_machine" "main" {
   os_profile {
     computer_name  = var.VM_NAME
     admin_username = var.VM_ADMIN
+    custom_data = base64encode(file("cloudinit.yml"))
   }
 
   os_profile_linux_config {
