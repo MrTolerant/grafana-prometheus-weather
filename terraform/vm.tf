@@ -27,8 +27,11 @@ resource "azurerm_virtual_machine" "main" {
   }
 
   storage_os_disk {
-    create_option      = "attach"
-    managed_disk_id = azurerm_managed_disk.osdisk.id
+    name              = "${var.VM_NAME}-OS"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+    disk_size_gb      = 30
   }
 
   os_profile {
@@ -48,12 +51,4 @@ resource "azurerm_virtual_machine" "main" {
     environment = "test"
     deployment  = "terraform"
   }
-}
-
-resource "azurerm_managed_disk" "osdisk" {
-    name              = "${var.VM_NAME}-OS"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
-    disk_size_gb      = 30
 }
