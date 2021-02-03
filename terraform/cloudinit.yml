@@ -1,23 +1,38 @@
 #cloud-config
+
+# create the docker group
+groups:
+    - docker
+# assign a VM's default user, which is mydefaultuser, to the docker group
+users:
+    - default
+    - name: gitlab-runner
+      groups: docker
+      sudo: ALL=(ALL) NOPASSWD:ALL
+    - name: mydefaultuser
+      sudo: ALL=(ALL) NOPASSWD:ALL
+      groups: docker
+
+apt:
+  sources:
+    docker.list:
+      source: 'deb [arch=amd64] https://download.docker.com/linux/ubuntu $RELEASE stable'
+      keyid: 0EBFCD88 
+
 package_update: true
 
 packages:
    - gitlab-runner
    - docker-compose
-# create the docker group
-groups:
-    - docker
-
-# assign a VM's default user, which is mydefaultuser, to the docker group
-users:
-    - default
-    - name: mydefaultuser
-      sudo: ALL=(ALL) NOPASSWD:ALL
-      groups: docker
+   - docker-ce
+   - ca-certificates
 
 runcmd:
   - mkdir -p -m 0755 /work
-  - curl -fsSL https://get.docker.com | sh
-  - sudo gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "xhMJpfQGpQ52FgUT1g8K"   --description "shell-runner"  --tag-list "azure,prod"   --run-untagged="false" --locked="false"
-  - sudo usermod -aG docker gitlab-runner
-  - sudo service docker restart
+  - gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "xhMJpfQGpQ52FgUT1g8K"   --description "shell-runner"  --tag-list "azure,prod"   --run-untagged="false" --locked="false" --docker-privileged=true
+
+power_state:
+  delay: "now"
+  mode: reboot
+  message: First reboot
+  condition: True
