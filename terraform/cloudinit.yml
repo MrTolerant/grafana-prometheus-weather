@@ -21,11 +21,19 @@ apt:
 package_update: true
 
 packages:
+   - apt-transport-https
+   - ca-certificates
+   - curl
+   - gnupg-agent
+   - software-properties-common
    - docker-compose
    - docker-ce
-   - ca-certificates
-   - gitlab-runner
+   - docker-ce-cli 
+   - containerd.io
 
 runcmd:
+  - curl -L "https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh" | sudo bash
+  - export GITLAB_RUNNER_DISABLE_SKEL=true; sudo -E apt-get install gitlab-runner
   - sudo gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "xhMJpfQGpQ52FgUT1g8K"   --description "shell-runner"  --tag-list "azure,prod"   --run-untagged="false" --locked="false"
+  - sudo usermod -aG docker gitlab-runner
 
