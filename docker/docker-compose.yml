@@ -18,8 +18,8 @@ services:
     depends_on:
       - openweather-exporter
     volumes:
+      - /tmp/prometheus:/prometheus:z
       - ./prometheus:/etc/prometheus/
-      # - /tmp/prometheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
@@ -35,7 +35,7 @@ services:
       - 80:3000
     user: "104"
     volumes:
-      # - /tmp/grafana:/var/lib/grafana
+      - /tmp/grafana:/var/lib/grafana:z
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     restart: always
