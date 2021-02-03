@@ -1,5 +1,5 @@
 #cloud-config
-package_upgrade: true
+package_update: true
 
 packages:
     - docker.io
@@ -17,14 +17,12 @@ users:
       groups: docker
 
 runcmd:
-  - gitlab-runner register
-      --non-interactive
-      --executor "shell"
-      --docker-image alpine:latest
-      --url "https://gitlab.com/"
-      --registration-token "xhMJpfQGpQ52FgUT1g8K"
-      --description "shell-runner"
-      --tag-list "azure,prod"
-      --run-untagged="true"
+  - sudo gitlab-runner register \
+      --non-interactive \
+      --executor "shell"    \
+      --url "https://gitlab.com/"   \
+      --registration-token "xhMJpfQGpQ52FgUT1g8K"   \
+      --description "shell-runner"  \
+      --tag-list "azure,prod"   \
+      --run-untagged="true" \
       --locked="false"
-      --access-level="not_protected"
