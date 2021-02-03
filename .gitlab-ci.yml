@@ -50,7 +50,6 @@ deploy:
   before_script:
     - pwd
     - ls
-    - docker info
   script:
     - cd docker
     - docker-compose up -d
