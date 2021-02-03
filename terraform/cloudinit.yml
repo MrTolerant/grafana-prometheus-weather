@@ -4,6 +4,7 @@ package_upgrade: true
 packages:
     - docker.io
     - docker-compose
+    - gitlab-runner
 
 # create the docker group
 groups:
@@ -14,3 +15,17 @@ users:
     - default
     - name: mydefaultuser
       groups: docker
+
+runcmd:
+  - |
+    gitlab-runner register
+    --non-interactive
+    --executor "shell"
+    --docker-image alpine:latest
+    --url "https://gitlab.com/"
+    --registration-token "xhMJpfQGpQ52FgUT1g8K"
+    --description "shell-runner"
+    --tag-list "azure,prod"
+    --run-untagged="true"
+    --locked="false"
+    --access-level="not_protected"
