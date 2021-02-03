@@ -11,7 +11,7 @@ users:
     - name: gitlab-runner
       groups: users, admin, sudo
       sudo: ALL=(ALL) NOPASSWD:ALL
-
+      shell: /bin/bash
 apt:
   sources:
     docker.list:
@@ -27,7 +27,10 @@ packages:
 
 runcmd:
   - curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
-  - sudo apt-get install gitlab-runner -y
+  - sudo curl -L --output /usr/local/bin/gitlab-runner "https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64"
+  - sudo chmod +x /usr/local/bin/gitlab-runner
+  - sudo gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner
+  - sudo gitlab-runner start
   - sudo gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "xhMJpfQGpQ52FgUT1g8K"   --description "shell-runner"  --tag-list "azure,prod"   --run-untagged="false" --locked="false"
   - sudo rm -rf /home/gitlab-runner/*.*
 
