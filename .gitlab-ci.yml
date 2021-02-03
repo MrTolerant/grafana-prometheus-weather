@@ -7,14 +7,19 @@ image:
 before_script:
   - cd terraform
   - rm -rf .terraform
-  - terraform --version
   - terraform init
 
 stages:
+  - destroy
   - validate
   - plan
   - apply
-  - destroy
+
+destroy:
+  stage: destroy
+  script:
+    - terraform destroy -auto-approve
+  # when: manual
 
 validate:
   stage: validate
@@ -41,9 +46,3 @@ apply:
       - ./host.txt
   dependencies:
     - plan
-
-destroy:
-  stage: destroy
-  script:
-    - terraform destroy -auto-approve
-  when: manual

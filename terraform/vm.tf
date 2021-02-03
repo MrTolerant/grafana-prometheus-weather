@@ -12,6 +12,7 @@ resource "azurerm_virtual_machine" "main" {
     destination = "/tmp/docker/"
   
     connection {
+      agent    = false
       user     = var.VM_ADMIN
       password = var.SSH_PRIVATE
       host     = azurerm_public_ip.main.fqdn
@@ -26,11 +27,8 @@ resource "azurerm_virtual_machine" "main" {
   }
 
   storage_os_disk {
-    name              = "${var.VM_NAME}-OS"
-    caching           = "ReadWrite"
-    create_option     = "FromImage"
-    managed_disk_type = "Standard_LRS"
-    disk_size_gb      = 30
+    create_option      = "attach"
+    managed_disk_id = azurerm_managed_disk.osdisk.id
   }
 
   os_profile {
@@ -50,4 +48,12 @@ resource "azurerm_virtual_machine" "main" {
     environment = "test"
     deployment  = "terraform"
   }
+}
+
+resource "azurerm_managed_disk" "osdisk" {
+    name              = "${var.VM_NAME}-OS"
+    caching           = "ReadWrite"
+    create_option     = "FromImage"
+    managed_disk_type = "Standard_LRS"
+    disk_size_gb      = 30
 }
