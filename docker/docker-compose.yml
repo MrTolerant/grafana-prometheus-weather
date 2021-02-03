@@ -1,18 +1,40 @@
-version: '3.4'
+version: '3.1'
 
 services:
 
-  prometheus:
+  openweather-exporter:
     image: billykwooten/openweather-exporter
+    container_name: openweather-exporter
+    restart: always
+    ports:
+      - 9091:9091
+    environment:
+      - OW_CITY=Tallin
+      - OW_DEGREES_UNIT=C
+      - OW_APIKEY=cb33357e4410403486d872416862b6fb
+
+  prometheus:
+    image: prom/prometheus:v2.24.1
+    depends_on:
+      - openweather-exporter
     volumes:
       - ./prometheus:/etc/prometheus/
       - ./data/prometheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+      - '--web.enable-lifecycle'
+      - '--web.enable-admin-api'
     ports:
-      - 9091:9091
+      - 9090:9090
     restart: always
+    logging: &logging
+      driver: "json-file"
+      options:
+        max-size: "1m"
+        max-file: "1"
 
   grafana:
     image: grafana/grafana:6.6.1
@@ -23,20 +45,7 @@ services:
     user: "104"
     volumes:
       - ./data/grafana:/var/lib/grafana
-      - ./grafana/provisioning/:/etc/grafana/provisioning/
+      - ./grafana/provisioning/:/etc/grafana/xd/
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
-    env_file:
-      - ./grafana/config.monitoring
-    environment:
-      GF_RENDERING_SERVER_URL: http://renderer:8081/render
-      GF_RENDERING_CALLBACK_URL: http://grafana:3000/
-      GF_LOG_FILTERS: rendering:debug
     restart: always
-
-  renderer:
-    image: grafana/grafana-image-renderer:latest
-    depends_on:
-      - grafana
-    ports:
-      - 8081
-    restart: always
+    logging: *logging

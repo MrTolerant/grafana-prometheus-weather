@@ -12,3 +12,5 @@ terraform.rc
 .env
 .terraform
 .terraform.lock.hcl
+data/prometheus/*.*
+data/grafana/*.*
