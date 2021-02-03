@@ -40,7 +40,7 @@ resource "azurerm_virtual_machine" "main" {
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
-    disk_size_gb      = 15
+    disk_size_gb      = 30
   }
 
   os_profile {
@@ -126,3 +126,7 @@ resource "azurerm_network_security_group" "main" {
   }
 }
 
+resource "local_file" "host" {
+  content = azurerm_public_ip.main.fqdn
+  filename = "./host.txt"
+}

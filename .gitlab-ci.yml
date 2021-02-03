@@ -24,7 +24,7 @@ validate:
 plan:
   stage: plan
   script:
-    - terraform plan -out "planfile"
+    - terraform plan -compact-warnings -out "planfile"
   dependencies:
     - validate
   artifacts:
@@ -34,8 +34,11 @@ plan:
 apply:
   stage: apply
   script:
-    - terraform apply -input=false "planfile"
+    - terraform apply -compact-warnings -input=false "planfile"
   # when: manual
+  artifacts:
+    paths:
+      - ./host.txt
   dependencies:
     - plan
 
