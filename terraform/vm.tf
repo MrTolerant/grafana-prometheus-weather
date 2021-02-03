@@ -15,7 +15,8 @@ resource "azurerm_virtual_machine" "main" {
       agent    = false
       user     = var.VM_ADMIN
       password = var.SSH_PRIVATE
-      host     = azurerm_public_ip.main.fqdn
+      host     = azurerm_public_ip.main.ip_address # azurerm_public_ip.main.fqdn
+      timeout  = "10m"
     }
   }
 
