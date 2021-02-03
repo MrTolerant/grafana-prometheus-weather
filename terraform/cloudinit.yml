@@ -6,12 +6,11 @@ groups:
 # assign a VM's default user, which is mydefaultuser, to the docker group
 users:
     - default
+    - name: mydefaultuser
+      groups: docker
     - name: gitlab-runner
       groups: docker
       sudo: ALL=(ALL) NOPASSWD:ALL
-    - name: mydefaultuser
-      sudo: ALL=(ALL) NOPASSWD:ALL
-      groups: docker
 
 apt:
   sources:
@@ -22,14 +21,18 @@ apt:
 package_update: true
 
 packages:
-   - gitlab-runner
    - docker-compose
    - docker-ce
    - ca-certificates
 
 runcmd:
+  - sudo sh -c "echo \"gitlab-runner ALL=(ALL) NOPASSWD: ALL\" >> /etc/sudoers"
   - mkdir -p -m 0755 /work
-  - gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "xhMJpfQGpQ52FgUT1g8K"   --description "shell-runner"  --tag-list "azure,prod"   --run-untagged="false" --locked="false" --docker-privileged=true
+  - curl -L https://packages.gitlab.com/install/repositories/runner/gitlab-runner/script.deb.sh | sudo bash
+  - sudo apt-get install gitlab-runner -y
+  - sudo gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "xhMJpfQGpQ52FgUT1g8K"   --description "shell-runner"  --tag-list "azure,prod"   --run-untagged="false" --locked="false"
+  - sudo usermod -aG docker gitlab-runner
+  - sudo usermod -aG docker azure-admin
 
 power_state:
   delay: "now"
