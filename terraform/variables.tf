@@ -14,6 +14,6 @@ variable "DEFAULT_SSHKEY" {
   default = "yourpublicsshkey"
 }
 
-variable "SSH_PRIVATE" {
-  default = "yourprivatesshkey"
-}
+#variable "SSH_PRIVATE" {
+#  default = "yourprivatesshkey"
+#}

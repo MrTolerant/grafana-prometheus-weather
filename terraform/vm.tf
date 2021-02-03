@@ -7,18 +7,18 @@ resource "azurerm_virtual_machine" "main" {
   network_interface_ids = [azurerm_network_interface.main.id]
   vm_size               = "Standard_B1ms"
 
-  provisioner "file" {
-    source      = "../docker/"
-    destination = "/tmp/docker/"
-  
-    connection {
-      agent    = false
-      user     = var.VM_ADMIN
-      password = var.SSH_PRIVATE
-      host     = azurerm_public_ip.main.ip_address # azurerm_public_ip.main.fqdn
-      timeout  = "10m"
-    }
-  }
+#  provisioner "file" {
+#    source      = "../docker/"
+#    destination = "/tmp/docker/"
+#  
+#    connection {
+#      agent    = false
+#      user     = var.VM_ADMIN
+#      password = "${var.SSH_PRIVATE}"
+#      host     = azurerm_public_ip.main.ip_address # azurerm_public_ip.main.fqdn
+#      timeout  = "5m"
+#    }
+#  }
 
   storage_image_reference {
     publisher = "canonical"
