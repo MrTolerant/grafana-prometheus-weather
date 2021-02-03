@@ -16,41 +16,41 @@ stages:
   - apply
   - deploy
 
-destroy:
-  stage: destroy
-  script:
-    - terraform destroy -auto-approve
-  # when: manual
+# destroy:
+#   stage: destroy
+#   script:
+#     - terraform destroy -auto-approve
+#   # when: manual
 
-validate:
-  stage: validate
-  script:
-    - terraform validate
+# validate:
+#   stage: validate
+#   script:
+#     - terraform validate
 
-plan:
-  stage: plan
-  script:
-    - terraform plan -compact-warnings -out "planfile"
-  dependencies:
-    - validate
-  artifacts:
-    paths:
-      - ./terraform/planfile
+# plan:
+#   stage: plan
+#   script:
+#     - terraform plan -compact-warnings -out "planfile"
+#   dependencies:
+#     - validate
+#   artifacts:
+#     paths:
+#       - ./terraform/planfile
 
-apply:
-  stage: apply
-  script:
-    - terraform apply -compact-warnings -input=false "planfile"
-  # when: manual
-  dependencies:
-    - plan
+# apply:
+#   stage: apply
+#   script:
+#     - terraform apply -compact-warnings -input=false "planfile"
+#   # when: manual
+#   dependencies:
+#     - plan
 
 deploy:
   stage: deploy
-  before_script:
+  before_script: []
+  script:
     - pwd
     - ls
-  script:
     - sudo mkdir -p /work
     - sudo mv docker /work
     - cd /work
