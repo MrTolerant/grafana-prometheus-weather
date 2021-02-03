@@ -100,8 +100,8 @@
                 "value": "null"
               }
             ],
-            "max": 105,
-            "min": -20,
+            "max": 55,
+            "min": -55,
             "nullValueMode": "connected",
             "thresholds": {
               "mode": "absolute",
@@ -1357,12 +1357,12 @@
       "yaxes": [
         {
           "$$hashKey": "object:642",
-          "decimals": null,
+          "decimals": 0,
           "format": "celsius",
           "label": null,
           "logBase": 1,
-          "max": "105",
-          "min": "-5",
+          "max": "50",
+          "min": "-50",
           "show": true
         },
         {
