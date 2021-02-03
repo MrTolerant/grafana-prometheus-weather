@@ -51,9 +51,10 @@ deploy:
   script:
     - pwd
     - ls
-    - sudo mkdir -p /work
-    - sudo mv docker /work
-    - cd /work
+    # - sudo mkdir -p /work
+    # - sudo mv docker /work
+    # - cd /work
+    - cd docker
     - sudo docker-compose up -d
   tags:
     - azure
