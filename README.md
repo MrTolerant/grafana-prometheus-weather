@@ -1,4 +1,13 @@
 # grafana-prometheus-weather
+
+<h2>Fully automated</h2>
+
+ Deploy from Gitlab CI:
+  - Create a virtual machine in Azure with Terraform
+  - Cloud init script configures the virtual machine and installs: docker, docker-compose, gitlab runner.
+  - Deploy docker compose through the created gitlab runner in cloud-init
+
+Urls:
  - metrics `http://<TF_VAR_VM_DOMAIN_NAME>.<TF_VAR_LOCATION>.cloudapp.azure.com:9091/metrics`
  - prometheus `http://<TF_VAR_VM_DOMAIN_NAME>.<TF_VAR_LOCATION>.cloudapp.azure.com:9090`
  - grafana `http://<TF_VAR_VM_DOMAIN_NAME>.<TF_VAR_LOCATION>.cloudapp.azure.com`
