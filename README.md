@@ -34,12 +34,12 @@
     ```
 8.  Edit some variables in gitlab-ci.yml, if you want.
   ```
-    TF_VAR_VM_DOMAIN_NAME: grafana-prometheus-weather # You Azure VM domain name
-    TF_VAR_VM_NAME: TestVM # Azure VM name
-    TF_VAR_VM_ADMIN: azure-admin # Azure VM admin login name
-    TF_VAR_LOCATION: West Europe # VM Location
-    OW_CITY: Tallin # City for scrapping weather
-    OW_DEGREES_UNIT: C # Degrees unit. C(elsius), F(ahrenheit)
+    TF_VAR_VM_DOMAIN_NAME: grafana-prometheus-weather // You Azure VM domain name
+    TF_VAR_VM_NAME: TestVM 							   // Azure VM name
+    TF_VAR_VM_ADMIN: azure-admin 					 // Azure VM admin login name
+    TF_VAR_LOCATION: West Europe 					 // VM Location
+    OW_CITY: Tallin 											 // City for scrapping weather
+    OW_DEGREES_UNIT: C 									   // Degrees unit. C(elsius), F(ahrenheit)
   ```
 9. Deploy
 10. Enjoy `http://<TF_VAR_VM_DOMAIN_NAME>.<TF_VAR_LOCATION>.cloudapp.azure.com`
