@@ -32,13 +32,13 @@ Urls:
 7. Open gitlab projecct.
    Paste variables to Settings >> CI/CD >> Variables
    ```
-   ARM_ACCESS_KEY: From Azure config below
-   ARM_CLIENT_ID: From Azure config below
-   ARM_CLIENT_SECRET: From Azure config below
-   ARM_SUBSCRIPTION_ID: From Azure config below
-   ARM_TENANT_ID: From Azure config below
+   ARM_ACCESS_KEY: From Azure config abowe
+   ARM_CLIENT_ID: From Azure config abowe
+   ARM_CLIENT_SECRET: From Azure config abowe
+   ARM_SUBSCRIPTION_ID: From Azure config abowe
+   ARM_TENANT_ID: From Azure config abowe
    OW_APIKEY: OpenWeather API key from openweathermap.org
-   TF_VAR_DEFAULT_SSHKEY: Your Public SSH key, if you want connect to VM avter deploy.
+   TF_VAR_DEFAULT_SSHKEY: Your Public SSH key, if you want connect to VM after deploy.
    TF_VAR_GITLAB_RUNNER_TOKEN: Gitlab runner install token. from GItLab Project Settings >> CI/CD >> Runners
     ```
 8.  Edit some variables in gitlab-ci.yml, if you want.
