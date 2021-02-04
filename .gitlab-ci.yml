@@ -5,7 +5,7 @@ variables:
   TF_VAR_LOCATION: West Europe
   OW_CITY: Tallin
   OW_DEGREES_UNIT: C
-      
+
 image:
   name: hashicorp/terraform:0.14.3
   entrypoint:

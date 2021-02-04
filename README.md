@@ -1,7 +1,7 @@
 # grafana-prometheus-weather
- - metrics http://grafana-prometheus-weather.westeurope.cloudapp.azure.com:9091/metrics
- - prometheus http://grafana-prometheus-weather.westeurope.cloudapp.azure.com:9090
- - grafana http://grafana-prometheus-weather.westeurope.cloudapp.azure.com
+ - metrics `http://<TF_VAR_VM_DOMAIN_NAME>.<TF_VAR_LOCATION>.cloudapp.azure.com:9091/metrics`
+ - prometheus `http://<TF_VAR_VM_DOMAIN_NAME>.<TF_VAR_LOCATION>.cloudapp.azure.com:9090`
+ - grafana `http://<TF_VAR_VM_DOMAIN_NAME>.<TF_VAR_LOCATION>.cloudapp.azure.com`
 ```user/password: openweather123```
 
 1. Clone this repo to New GitLab project.
@@ -20,7 +20,7 @@
   ```
 6. You need to create OpenWeather free account at https://openweathermap.org/. And get API token from https://home.openweathermap.org/api_keys
 
-7. Open gitlab projecct. 
+7. Open gitlab projecct.
    Paste variables to Settings >> CI/CD >> Variables
    ```
    ARM_ACCESS_KEY: From Azure config below
@@ -33,7 +33,41 @@
    TF_VAR_GITLAB_RUNNER_TOKEN: Gitlab runner install token. from GItLab Project Settings >> CI/CD >> Runners
     ```
 8.  Edit some variables in gitlab-ci.yml, if you want.
-
+  ```
+    TF_VAR_VM_DOMAIN_NAME: grafana-prometheus-weather # You Azure VM domain name
+    TF_VAR_VM_NAME: TestVM # Azure VM name
+    TF_VAR_VM_ADMIN: azure-admin # Azure VM admin login name
+    TF_VAR_LOCATION: West Europe # VM Location
+    OW_CITY: Tallin # City for scrapping weather
+    OW_DEGREES_UNIT: C # Degrees unit. C(elsius), F(ahrenheit)
+  ```
 9. Deploy
-10. Enjoy http://grafana-prometheus-weather.westeurope.cloudapp.azure.com
+10. Enjoy `http://<TF_VAR_VM_DOMAIN_NAME>.<TF_VAR_LOCATION>.cloudapp.azure.com`
+    example: http://grafana-prometheus-weather.westeurope.cloudapp.azure.com/
 11. Destroy. CI/CD >> Pipelines >>  Chose latest job and run Destroy stage
+
+Repository structure:
+```
+.
+├── README.md
+├── docker
+│   ├── docker-compose.yml
+│   ├── grafana
+│   │   ├── grafana.ini
+│   │   └── provisioning
+│   │       ├── dashboards
+│   │       │   ├── dashboard.yml
+│   │       │   └── open_weather_map.json
+│   │       └── datasources
+│   │           └── datasource.yml
+│   └── prometheus
+│       └── prometheus.yml
+└── terraform
+    ├── cloudinit.yml
+    ├── main.tf
+    ├── outputs.tf
+    ├── providers.tf
+    ├── variables.tf
+    └── vm.tf
+
+```
