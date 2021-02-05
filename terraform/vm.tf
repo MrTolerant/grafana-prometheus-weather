@@ -32,7 +32,7 @@ resource "azurerm_virtual_machine" "main" {
     disable_password_authentication = true
     ssh_keys {
       key_data = var.DEFAULT_SSHKEY
-      path     = "/home/azure-admin/.ssh/authorized_keys"
+      path     = "/home/${var.VM_ADMIN}/.ssh/authorized_keys"
     }
   }
 
