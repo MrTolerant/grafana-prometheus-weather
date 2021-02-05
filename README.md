@@ -13,7 +13,9 @@ Urls:
  - grafana `http://<TF_VAR_VM_DOMAIN_NAME>.<TF_VAR_LOCATION>.cloudapp.azure.com`
 ```user/password: openweather123```
 
-1. Clone this repo to New GitLab project.
+1. Create free account at https://gitlab.com/ . 
+    - Create new project. 
+    - Clone this repository to New GitLab project.
 2. Create free Azure account https://azure.microsoft.com/
 3. Install Azure config utility ```az``` from https://docs.microsoft.com/ru-ru/cli/azure/install-azure-cli
 4. You need to create an Azure service principal to deploy Azure VM with Terraform and GitLab.
@@ -27,9 +29,9 @@ Urls:
   az storage account create -n tfacc -g terraform -l northcentralus --sku Standard_LRS
   az storage container create -n terraform-state --account-name tfacc
   ```
-6. You need to create OpenWeather free account at https://openweathermap.org/. And get API token from https://home.openweathermap.org/api_keys
+6. Create OpenWeather free account at https://openweathermap.org/. And get API token from https://home.openweathermap.org/api_keys
 
-7. Open gitlab projecct.
+7. Open your GitLab project.
    Paste variables to Settings >> CI/CD >> Variables
    ```
    ARM_ACCESS_KEY: From Azure config abowe
@@ -50,10 +52,10 @@ Urls:
     OW_CITY: Tallin       // City for scrapping weather
     OW_DEGREES_UNIT: C  // Degrees unit. C(elsius), F(ahrenheit)
   ```
-9. Deploy
+9. Deploy CI/CD >> Pipelines >> Run pipeline
 10. Enjoy `http://<TF_VAR_VM_DOMAIN_NAME>.<TF_VAR_LOCATION>.cloudapp.azure.com`
     example: http://grafana-prometheus-weather.westeurope.cloudapp.azure.com/
-11. Destroy. CI/CD >> Pipelines >>  Chose latest job and run Destroy stage
+11. Destroy. Settings >> CI/CD >> Pipelines >>  Chose latest job and run Destroy stage
 
 Repository structure:
 ```
