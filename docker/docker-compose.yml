@@ -58,7 +58,7 @@ services:
     image: traefik:2.4.2
     restart: always
     labels:
-      # - traefik.http.routers.traefik.rule=PathPrefix(`/traefik`)
+      - traefik.http.routers.traefik.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/dashboard`)
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.middlewares=auth,traefik
       # - traefik.http.middlewares.traefik.stripprefix.prefixes="/traefik"
