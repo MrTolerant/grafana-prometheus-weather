@@ -36,5 +36,3 @@ runcmd:
   - sudo usermod -aG docker gitlab-runner
   - sudo usermod -aG sudo gitlab-runner
   - sudo docker network create traefik
-power_state:
-  mode: reboot
