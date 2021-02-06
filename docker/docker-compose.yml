@@ -8,8 +8,7 @@ services:
       - internal
     container_name: openweather-exporter
     restart: always
-    ports:
-      - 9091:9091
+    expose: 9091
     environment:
       - OW_CITY=${OW_CITY}
       - OW_DEGREES_UNIT=${OW_DEGREES_UNIT}
