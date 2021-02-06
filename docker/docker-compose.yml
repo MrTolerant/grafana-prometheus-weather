@@ -18,9 +18,9 @@ services:
       - traefik.http.routers.exporter.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/exporter`)
       - traefik.http.routers.exporter.tls=true
       - traefik.http.routers.exporter.tls.certresolver=myresolver
-      - traefik.docker.network=traefik
       - traefik.http.routers.exporter.middlewares=exporter
       - traefik.http.middlewares.exporter.stripprefix.prefixes=/exporter
+      - traefik.docker.network=traefik
 
   prometheus:
     image: prom/prometheus:v2.24.1
@@ -40,9 +40,9 @@ services:
       - traefik.http.routers.prometheus.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/prometheus`)
       - traefik.http.routers.prometheus.tls=true
       - traefik.http.routers.prometheus.tls.certresolver=myresolver
-      - traefik.docker.network=traefik
       - traefik.http.routers.prometheus.middlewares=prometheus
       - traefik.http.middlewares.prometheus.stripprefix.prefixes=/prometheus
+      - traefik.docker.network=traefik
 
   grafana:
     image: grafana/grafana:6.6.1
@@ -69,9 +69,9 @@ services:
     image: traefik:2.2
     restart: always
     labels:
-      - traefik.http.routers.api.rule=Host(`traefik.${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/traefik`)
-      - traefik.http.routers.api.middlewares=auth
-      - traefik.http.middlewares.auth.basicauth.users=mrtolerant:zXASqw12!@
+      - traefik.http.routers.traefik.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/traefik`)
+      - traefik.http.routers.traefik.middlewares=auth
+      # - traefik.http.middlewares.auth.basicauth.users=admin:zXASqw12
       - traefik.http.routers.traefik.middlewares=traefik
       - traefik.http.middlewares.traefik.stripprefix.prefixes=/traefik
     ports:
