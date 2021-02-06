@@ -73,7 +73,7 @@ resource "azurerm_network_security_group" "main" {
   }
     security_rule {
     name                       = "traefik"
-    priority                   = 103
+    priority                   = 104
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
