@@ -17,6 +17,7 @@ services:
     labels:
       - traefik.http.routers.metrics.rule=PathPrefix(`/metrics`)
       - traefik.http.routers.metrics.entrypoints=http,https
+      - traefik.docker.network=traefik
 
   prometheus:
     image: prom/prometheus:v2.24.1
@@ -47,6 +48,7 @@ services:
     labels:
       - traefik.http.routers.grafana.rule=PathPrefix(`/`)
       - traefik.http.routers.grafana.entrypoints=http,https
+      - traefik.docker.network=traefik
 
   traefik:
     container_name: traefik
@@ -59,6 +61,7 @@ services:
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.middlewares=auth
       - "traefik.http.middlewares.auth.basicauth.users=admin:$$2y$$10$$jiNkcnNkYiW6OJETlYJ4W.JufWIBAj4cceuUaXfIkitItvUkMDWJe"
+      - traefik.docker.network=traefik
     ports:
       - 80:80
       - 443:443
