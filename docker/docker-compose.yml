@@ -8,8 +8,8 @@ services:
       - internal
     container_name: openweather-exporter
     restart: always
-    # ports:
-    #   - 9091:9091
+    ports:
+      - 9091
     environment:
       - OW_CITY=${OW_CITY}
       - OW_DEGREES_UNIT=${OW_DEGREES_UNIT}
@@ -57,7 +57,7 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.grafana.rule=Host(`grafana.${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
+      - traefik.http.routers.grafana.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
       - traefik.http.routers.grafana.tls=true
       - traefik.http.routers.grafana.tls.certresolver=myresolver
       - traefik.docker.network=review
@@ -69,7 +69,7 @@ services:
     restart: always
     labels:
       - traefik.enabled=true
-      - traefik.http.routers.api.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
+      - traefik.http.routers.api.rule=Host(`traefik.${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
       - traefik.http.routers.api.service=api@internal
       - traefik.http.routers.api.middlewares=auth
       - traefik.http.middlewares.auth.basicauth.users=mrtolerant:zXASqw12!@
