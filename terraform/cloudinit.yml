@@ -35,5 +35,3 @@ runcmd:
   - sudo gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "${token}"   --description "shell"  --tag-list "azure"   --run-untagged="false" --locked="false"
   - sudo usermod -aG docker gitlab-runner
   - sudo usermod -aG sudo gitlab-runner
-power_state:
-  mode: reboot
