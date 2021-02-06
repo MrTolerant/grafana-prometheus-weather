@@ -18,8 +18,8 @@ services:
       - traefik.http.routers.metrics.rule=PathPrefix(`/metrics`)
       - traefik.http.routers.metrics.tls=true
       - traefik.http.routers.metrics.tls.certresolver=myresolver
+      - traefik.http.routers.metrics.entrypoints=http,https
       - traefik.docker.network=traefik
-      - traefik.http.routers.dashboard.entrypoints=http,https
 
   prometheus:
     image: prom/prometheus:v2.24.1
@@ -51,8 +51,8 @@ services:
       - traefik.http.routers.grafana.rule=PathPrefix(`/`)
       - traefik.http.routers.grafana.tls=true
       - traefik.http.routers.grafana.tls.certresolver=myresolver
+      - traefik.http.routers.grafana.entrypoints=http,https
       - traefik.docker.network=traefik
-      - traefik.http.routers.dashboard.entrypoints=http,https
 
   traefik:
     container_name: traefik
