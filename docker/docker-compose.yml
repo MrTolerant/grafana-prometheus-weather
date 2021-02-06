@@ -19,6 +19,7 @@ services:
       - traefik.http.routers.metrics.tls=true
       - traefik.http.routers.metrics.tls.certresolver=myresolver
       - traefik.docker.network=traefik
+      - traefik.http.routers.dashboard.entrypoints=http,https
 
   prometheus:
     image: prom/prometheus:v2.24.1
@@ -51,6 +52,7 @@ services:
       - traefik.http.routers.grafana.tls=true
       - traefik.http.routers.grafana.tls.certresolver=myresolver
       - traefik.docker.network=traefik
+      - traefik.http.routers.dashboard.entrypoints=http,https
 
   traefik:
     container_name: traefik
@@ -58,7 +60,8 @@ services:
     image: traefik:2.4.2
     restart: always
     labels:
-      - traefik.http.routers.traefik.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && (PathPrefix(`/dashboard`) ||PathPrefix(`/api`))
+      - traefik.http.routers.traefik.rule=PathPrefix(`/dashboard`) || PathPrefix(`/api`)
+      - traefik.http.routers.dashboard.entrypoints=traefik
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.middlewares=auth
       - "traefik.http.middlewares.auth.basicauth.users=admin:$$2y$$10$$jiNkcnNkYiW6OJETlYJ4W.JufWIBAj4cceuUaXfIkitItvUkMDWJe"
