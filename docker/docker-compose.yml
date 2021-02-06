@@ -15,11 +15,9 @@ services:
       - OW_DEGREES_UNIT=${OW_DEGREES_UNIT}
       - OW_APIKEY=${OW_APIKEY}
     labels:
-      - traefik.http.routers.exporter.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/exporter`)
-      - traefik.http.routers.exporter.tls=true
-      - traefik.http.routers.exporter.tls.certresolver=myresolver
-      - traefik.http.routers.exporter.middlewares=exporter
-      - traefik.http.middlewares.exporter.stripprefix.prefixes=/exporter
+      - traefik.http.routers.metrics.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/metrics`)
+      - traefik.http.routers.metrics.tls=true
+      - traefik.http.routers.metrics.tls.certresolver=myresolver
       - traefik.docker.network=traefik
 
   prometheus:
@@ -33,8 +31,6 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
-    # ports:
-    #   - 9090:9090
     restart: always
     labels:
       - traefik.http.routers.prometheus.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/prometheus`)
@@ -50,8 +46,6 @@ services:
       - traefik
     depends_on:
       - prometheus
-    # ports:
-    #   - 80:3000
     user: "104"
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
@@ -69,15 +63,12 @@ services:
     image: traefik:2.2
     restart: always
     labels:
-      - traefik.http.routers.traefik.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/traefik`)
-      - traefik.http.routers.traefik.middlewares=auth
+      - traefik.http.routers.traefik.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/dashboard`)
+      # - traefik.http.routers.traefik.middlewares=auth
       # - traefik.http.middlewares.auth.basicauth.users=admin:zXASqw12
-      - traefik.http.routers.traefik.middlewares=traefik
-      - traefik.http.middlewares.traefik.stripprefix.prefixes=/traefik
     ports:
       - 80:80
       - 443:443
-      - 9000:9000
     networks:
       - traefik
     volumes:
