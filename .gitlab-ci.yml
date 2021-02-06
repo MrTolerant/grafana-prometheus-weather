@@ -58,6 +58,7 @@ deploy:
     - azure
 
 destroy:
+  needs: []
   stage: destroy
   script:
     - terraform destroy -auto-approve
