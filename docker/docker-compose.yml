@@ -60,13 +60,13 @@ services:
   traefik:
     container_name: traefik
     command: --web -c /etc/traefik/traefik.yaml
-    image: traefik:2.2
+    image: traefik:2.4.2
     restart: always
     labels:
       - traefik.http.routers.traefik.rule=PathPrefix(`/dashboard`)
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.middlewares=auth
-      - traefik.http.middlewares.auth.basicauth.users=admin:zXASqw12
+      - traefik.http.middlewares.auth.basicauth.users=admin:7bcfeeed128fd24e2dd9d3572b897574
     ports:
       - 80:80
       - 443:443
