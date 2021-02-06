@@ -39,4 +39,4 @@ certificatesResolvers:
 providers:
   docker:
     endpoint: "unix:///var/run/docker.sock"
-    exposedbydefault: false
+    exposedbydefault: true
