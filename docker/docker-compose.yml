@@ -66,7 +66,7 @@ services:
       - traefik.http.routers.traefik.rule=PathPrefix(`/dashboard`)
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.middlewares=auth
-      - traefik.http.middlewares.auth.basicauth.users=admin:$apr1$6dOq/yJM$.bMkT3qCmU9.q/M6qcdAW/
+      - "traefik.http.middlewares.auth.basicauth.users=admin:$apr1$6dOq/yJM$.bMkT3qCmU9.q/M6qcdAW/""
     ports:
       - 80:80
       - 443:443
