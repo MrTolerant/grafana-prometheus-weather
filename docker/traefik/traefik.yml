@@ -15,8 +15,9 @@ defaultEntryPoints:
 entryPoints:
   traefik:
     address: :9000
-    tls:
-      certResolver: myresolver
+    http:
+      tls:
+        certResolver: myresolver
   http:
     address: :80
     http:
