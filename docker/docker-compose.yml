@@ -5,7 +5,7 @@ services:
   openweather-exporter:
     image: billykwooten/openweather-exporter
     networks:
-      - internal
+      - traefik
     container_name: openweather-exporter
     restart: always
     expose: 
@@ -16,15 +16,18 @@ services:
       - OW_APIKEY=${OW_APIKEY}
     labels:
       - traefik.enable=true
-      - traefik.http.routers.exporter.rule=Host(`exporter.${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
+      - traefik.http.routers.exporter.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/exporter`)
       - traefik.http.routers.exporter.tls=true
       - traefik.http.routers.exporter.tls.certresolver=myresolver
-      - traefik.docker.network=review
+      - traefik.docker.network=traefik
+      - traefik.http.routers.exporter.service=exporter
+      - traefik.http.routers.exporter.middlewares=exporter
+      - traefik.http.middlewares.exporter.stripprefix.prefixes=/exporter
 
   prometheus:
     image: prom/prometheus:v2.24.1
     networks:
-      - internal
+      - traefik
     depends_on:
       - openweather-exporter
     volumes:
@@ -37,15 +40,18 @@ services:
     restart: always
     labels:
       - traefik.enable=true
-      - traefik.http.routers.prometheus.rule=Host(`prometheus.${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
+      - traefik.http.routers.prometheus.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/prometheus`)
       - traefik.http.routers.prometheus.tls=true
       - traefik.http.routers.prometheus.tls.certresolver=myresolver
-      - traefik.docker.network=review
+      - traefik.docker.network=traefik
+      - traefik.http.routers.prometheus.service=prometheus
+      - traefik.http.routers.prometheus.middlewares=prometheus
+      - traefik.http.middlewares.prometheus.stripprefix.prefixes=/prometheus
 
   grafana:
     image: grafana/grafana:6.6.1
     networks:
-      - internal
+      - traefik
     depends_on:
       - prometheus
     # ports:
@@ -60,7 +66,8 @@ services:
       - traefik.http.routers.grafana.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
       - traefik.http.routers.grafana.tls=true
       - traefik.http.routers.grafana.tls.certresolver=myresolver
-      - traefik.docker.network=review
+      - traefik.docker.network=traefik
+      - traefik.http.routers.grafana.service=grafana
 
   traefik:
     container_name: traefik
@@ -69,23 +76,28 @@ services:
     restart: always
     labels:
       - traefik.enabled=true
-      - traefik.http.routers.api.rule=Host(`traefik.${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
+      - traefik.http.routers.api.rule=Host(`traefik.${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/traefik`)
       - traefik.http.routers.api.service=api@internal
       - traefik.http.routers.api.middlewares=auth
       - traefik.http.middlewares.auth.basicauth.users=mrtolerant:zXASqw12!@
+      - traefik.http.routers.traefik.service=traefik
+      - traefik.http.routers.traefik.middlewares=traefik
+      - traefik.http.middlewares.traefik.stripprefix.prefixes=/traefik
     ports:
       - 80:80
       - 443:443
       - 9000:9000
     networks:
-      - review
+      - traefik
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ./traefik/:/etc/traefik/
       - /acme
 
 networks:
-  internal:
-  review:
+  traefik:
+    driver: overlay
+    attachable: true
     external:
-      name: review
+      name: traefik
+

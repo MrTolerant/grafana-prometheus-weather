@@ -35,7 +35,6 @@ runcmd:
   - sudo gitlab-runner register --non-interactive --executor "shell"    --url "https://gitlab.com/"   --registration-token "${token}"   --description "shell"  --tag-list "azure"   --run-untagged="false" --locked="false"
   - sudo usermod -aG docker gitlab-runner
   - sudo usermod -aG sudo gitlab-runner
-  - sudo docker network create internal
-  - sudo docker network create review
+  - sudo docker network create traefik
 power_state:
   mode: reboot
