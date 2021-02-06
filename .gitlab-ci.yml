@@ -1,5 +1,5 @@
 variables:
-  TF_VAR_VM_DOMAIN_NAME: mrtolerant
+  TF_VAR_VM_DOMAIN_NAME: cloudmore
   TF_VAR_VM_NAME: TestVM
   TF_VAR_VM_ADMIN: azure-admin
   TF_VAR_LOCATION: WestEurope

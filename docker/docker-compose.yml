@@ -15,7 +15,7 @@ services:
       - OW_DEGREES_UNIT=${OW_DEGREES_UNIT}
       - OW_APIKEY=${OW_APIKEY}
     labels:
-      - traefik.http.routers.metrics.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/metrics`)
+      - traefik.http.routers.metrics.rule=PathPrefix(`/metrics`)
       - traefik.http.routers.metrics.tls=true
       - traefik.http.routers.metrics.tls.certresolver=myresolver
       - traefik.docker.network=traefik
@@ -33,11 +33,11 @@ services:
       - '--storage.tsdb.path=/prometheus'
     restart: always
     labels:
-      - traefik.http.routers.prometheus.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/prometheus`)
+      - traefik.http.routers.prometheus.rule=PathPrefix(`/prometheus`)
       - traefik.http.routers.prometheus.tls=true
       - traefik.http.routers.prometheus.tls.certresolver=myresolver
       - traefik.http.routers.prometheus.middlewares=prometheus
-      - traefik.http.middlewares.prometheus.stripprefix.prefixes=/prometheus
+      - traefik.http.middlewares.prometheus.stripprefix.prefixes="/prometheus"
       - traefik.docker.network=traefik
 
   grafana:
@@ -52,7 +52,7 @@ services:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     restart: always
     labels:
-      - traefik.http.routers.grafana.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/`)
+      - traefik.http.routers.grafana.rule=PathPrefix(``)
       - traefik.http.routers.grafana.tls=true
       - traefik.http.routers.grafana.tls.certresolver=myresolver
       - traefik.docker.network=traefik
@@ -63,7 +63,7 @@ services:
     image: traefik:2.2
     restart: always
     labels:
-      - traefik.http.routers.traefik.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && (PathPrefix(`/api`) || PathPrefix(`/dashboard`))
+      - traefik.http.routers.traefik.rule=(PathPrefix(`/api`) || PathPrefix(`/dashboard`))
       - traefik.http.routers.dashboard.service=api@internal
       # - traefik.http.routers.traefik.middlewares=auth
       # - traefik.http.middlewares.auth.basicauth.users=admin:zXASqw12

@@ -13,8 +13,6 @@ defaultEntryPoints:
   - http
 
 entryPoints:
-  traefik:
-    address: :9000
   http:
     address: :80
     http:
