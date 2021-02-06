@@ -62,7 +62,7 @@ services:
       - traefik.http.routers.traefik.middlewares=auth,dashboard
       - "traefik.http.middlewares.auth.basicauth.users=admin:$$2y$$10$$jiNkcnNkYiW6OJETlYJ4W.JufWIBAj4cceuUaXfIkitItvUkMDWJe"
       - traefik.docker.network=traefik
-      - traefik.http.middlewares.dashboard.redirectregex.regex=.*
+      - traefik.http.middlewares.dashboard.redirectregex.regex=.
       - traefik.http.middlewares.dashboard.redirectregex.replacement=https://${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com:9000/dashboard/
     ports:
       - 80:80
