@@ -83,8 +83,3 @@ resource "azurerm_network_security_group" "main" {
     destination_address_prefix = "*"
   }
 }
-
-resource "local_file" "host" {
-  content = azurerm_public_ip.main.fqdn
-  filename = "./host.txt"
-}

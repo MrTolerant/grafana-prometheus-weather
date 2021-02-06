@@ -19,5 +19,4 @@ variable "GITLAB_RUNNER_TOKEN" {
 }
 
 variable "VM_DOMAIN_NAME" {
-  default = "grafana-prometheus-weather"
 }
