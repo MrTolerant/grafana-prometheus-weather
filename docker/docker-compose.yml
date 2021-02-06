@@ -33,11 +33,11 @@ services:
       - '--storage.tsdb.path=/prometheus'
     restart: always
     labels:
-      - traefik.http.routers.prometheus.rule=PathPrefix(`/prometheus`)
+      - traefik.http.routers.prometheus.rule=PathPrefix(`/`)
       - traefik.http.routers.prometheus.tls=true
       - traefik.http.routers.prometheus.tls.certresolver=myresolver
-      - traefik.http.routers.prometheus.middlewares=prometheus
-      - traefik.http.middlewares.prometheus.stripprefix.prefixes="/prometheus"
+      # - traefik.http.routers.prometheus.middlewares=prometheus
+      # - traefik.http.middlewares.prometheus.stripprefix.prefixes="/prometheus"
       - traefik.docker.network=traefik
 
   grafana:
