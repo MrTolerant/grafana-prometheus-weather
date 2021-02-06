@@ -33,11 +33,11 @@ services:
       - '--storage.tsdb.path=/prometheus'
     restart: always
     labels:
-      - traefik.http.routers.prometheus.rule=PathPrefix(`/`)
+      - traefik.http.routers.prometheus.rule=PathPrefix(`/prometheus`) || PathPrefix(`/graph`)
       - traefik.http.routers.prometheus.tls=true
       - traefik.http.routers.prometheus.tls.certresolver=myresolver
-      # - traefik.http.routers.prometheus.middlewares=prometheus
-      # - traefik.http.middlewares.prometheus.stripprefix.prefixes="/prometheus"
+      - traefik.http.routers.prometheus.middlewares=prometheus
+      - traefik.http.middlewares.prometheus.stripprefix.prefixes="/prometheus"
       - traefik.docker.network=traefik
 
   grafana:
@@ -52,7 +52,7 @@ services:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     restart: always
     labels:
-      - traefik.http.routers.grafana.rule=PathPrefix(`/grafana`)
+      - traefik.http.routers.grafana.rule=PathPrefix(`/`)
       - traefik.http.routers.grafana.tls=true
       - traefik.http.routers.grafana.tls.certresolver=myresolver
       - traefik.http.routers.grafana.middlewares=grafana
