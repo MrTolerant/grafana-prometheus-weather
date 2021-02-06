@@ -33,7 +33,7 @@ services:
       - '--storage.tsdb.path=/prometheus'
     restart: always
     labels:
-      - traefik.http.routers.prometheus.rule=PathPrefix(`/prometheus`) || PathPrefix(`/graph`)
+      - traefik.http.routers.prometheus.rule=PathPrefix(`/prometheus`) || PathPrefix(`/graph`) || PathPrefix(`/api`)
       - traefik.http.routers.prometheus.tls=true
       - traefik.http.routers.prometheus.tls.certresolver=myresolver
       - traefik.http.routers.prometheus.middlewares=prometheus
