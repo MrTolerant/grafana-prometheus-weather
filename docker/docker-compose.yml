@@ -4,17 +4,27 @@ services:
 
   openweather-exporter:
     image: billykwooten/openweather-exporter
+    networks:
+      - internal
     container_name: openweather-exporter
     restart: always
-    ports:
-      - 9091:9091
+    # ports:
+    #   - 9091:9091
     environment:
       - OW_CITY=${OW_CITY}
       - OW_DEGREES_UNIT=${OW_DEGREES_UNIT}
       - OW_APIKEY=${OW_APIKEY}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.exporter.rule=Host(`exporter.${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
+      - traefik.http.routers.exporter.tls=true
+      - traefik.http.routers.exporter.tls.certresolver=myresolver
+      - traefik.docker.network=review
 
   prometheus:
     image: prom/prometheus:v2.24.1
+    networks:
+      - internal
     depends_on:
       - openweather-exporter
     volumes:
@@ -22,22 +32,59 @@ services:
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
       - '--storage.tsdb.path=/prometheus'
-    ports:
-      - 9090:9090
+    # ports:
+    #   - 9090:9090
     restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.prometheus.rule=Host(`prometheus.${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
+      - traefik.http.routers.prometheus.tls=true
+      - traefik.http.routers.prometheus.tls.certresolver=myresolver
+      - traefik.docker.network=review
 
   grafana:
     image: grafana/grafana:6.6.1
+    networks:
+      - internal
     depends_on:
       - prometheus
-    ports:
-      - 80:3000
+    # ports:
+    #   - 80:3000
     user: "104"
     volumes:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     restart: always
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.grafana.rule=Host(`grafana.${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
+      - traefik.http.routers.grafana.tls=true
+      - traefik.http.routers.grafana.tls.certresolver=myresolver
+      - traefik.docker.network=review
 
-volumes:
-  prometheus:
-  grafana:
+  traefik:
+    container_name: traefik
+    command: --web -c /etc/traefik/traefik.yaml
+    image: traefik:2.2
+    restart: always
+    labels:
+      - traefik.enabled=true
+      - traefik.http.routers.api.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`)
+      - traefik.http.routers.api.service=api@internal
+      - traefik.http.routers.api.middlewares=auth
+      - traefik.http.middlewares.auth.basicauth.users=mrtolerant:zXASqw12!@
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      - review
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/:/etc/traefik/
+      - /acme
+
+networks:
+  internal:
+  review:
+    external:
+      name: review

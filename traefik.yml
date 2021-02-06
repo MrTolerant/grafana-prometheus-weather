@@ -1,0 +1,46 @@
+log:
+  level: ERROR
+
+serversTransport:
+  insecureSkipVerify: true
+
+api:
+  dashboard: true
+  # insecure: true
+
+defaultEntryPoints:
+  - https
+  - http
+
+entryPoints:
+  traefik:
+    address: :666
+  http:
+    address: :80
+    http:
+      redirections:
+        entrypoint:
+          to: https
+          scheme: https
+  https:
+    address: :443
+    http:
+      tls:
+        certResolver: myresolver
+
+certificatesResolvers:
+  myresolver:
+    acme:
+      email: admin@mrtolerant.com
+      storage: /acme/acme.json
+      httpChallenge:
+        entryPoint: http
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedbydefault: false
+  file:
+    filename: /etc/traefik/rules.yml
+    watch: true
+

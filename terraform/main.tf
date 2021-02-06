@@ -61,7 +61,7 @@ resource "azurerm_network_security_group" "main" {
     destination_address_prefix = "*"
   }
   security_rule {
-    name                       = "grafana"
+    name                       = "http"
     priority                   = 102
     direction                  = "Inbound"
     access                     = "Allow"
@@ -72,13 +72,13 @@ resource "azurerm_network_security_group" "main" {
     destination_address_prefix = "*"
   }
   security_rule {
-    name                       = "prometheus"
+    name                       = "https"
     priority                   = 103
     direction                  = "Inbound"
     access                     = "Allow"
     protocol                   = "Tcp"
     source_port_range          = "*"
-    destination_port_range     = "9090-9091"
+    destination_port_range     = "443"
     source_address_prefix      = "*"
     destination_address_prefix = "*"
   }
