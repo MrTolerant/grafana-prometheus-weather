@@ -36,7 +36,7 @@ services:
       - traefik.http.routers.prometheus.rule=PathPrefix(`/prometheus`)
       - traefik.http.routers.prometheus.tls=true
       - traefik.http.routers.prometheus.tls.certresolver=myresolver
-      - traefik.http.routers.prometheus.middlewares=prometheus
+      # - traefik.http.routers.prometheus.middlewares=prometheus
       # - traefik.http.middlewares.prometheus.stripprefix.prefixes="/prometheus"
       - traefik.docker.network=traefik
 
@@ -52,7 +52,7 @@ services:
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     restart: always
     labels:
-      - traefik.http.routers.grafana.rule=PathPrefix(`/`)
+      - traefik.http.routers.grafana.rule=PathPrefix(`/grafana`)
       - traefik.http.routers.grafana.tls=true
       - traefik.http.routers.grafana.tls.certresolver=myresolver
       - traefik.docker.network=traefik
