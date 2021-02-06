@@ -33,12 +33,7 @@ services:
       - '--storage.tsdb.path=/prometheus'
     restart: always
     labels:
-      - traefik.http.routers.prometheus.rule=PathPrefix(`/prometheus`) || PathPrefix(`/graph`) || PathPrefix(`/api`)
-      - traefik.http.routers.prometheus.tls=true
-      - traefik.http.routers.prometheus.tls.certresolver=myresolver
-      - traefik.http.routers.prometheus.middlewares=prometheus
-      - traefik.http.middlewares.prometheus.stripprefix.prefixes="/prometheus"
-      - traefik.docker.network=traefik
+      - traefik.enable=false
 
   grafana:
     image: grafana/grafana:6.6.1
@@ -55,8 +50,6 @@ services:
       - traefik.http.routers.grafana.rule=PathPrefix(`/`)
       - traefik.http.routers.grafana.tls=true
       - traefik.http.routers.grafana.tls.certresolver=myresolver
-      - traefik.http.routers.grafana.middlewares=grafana
-      - traefik.http.middlewares.grafana.stripprefix.prefixes="/grafana"
       - traefik.docker.network=traefik
 
   traefik:
@@ -65,14 +58,15 @@ services:
     image: traefik:2.4.2
     restart: always
     labels:
-      - traefik.http.routers.traefik.rule=PathPrefix(`/traefik`)
+      # - traefik.http.routers.traefik.rule=PathPrefix(`/traefik`)
       - traefik.http.routers.traefik.service=api@internal
       - traefik.http.routers.traefik.middlewares=auth,traefik
-      - traefik.http.middlewares.traefik.stripprefix.prefixes="/traefik"
+      # - traefik.http.middlewares.traefik.stripprefix.prefixes="/traefik"
       - "traefik.http.middlewares.auth.basicauth.users=admin:$$2y$$10$$jiNkcnNkYiW6OJETlYJ4W.JufWIBAj4cceuUaXfIkitItvUkMDWJe"
     ports:
       - 80:80
       - 443:443
+      - 9000:9000
     networks:
       - traefik
     volumes:
