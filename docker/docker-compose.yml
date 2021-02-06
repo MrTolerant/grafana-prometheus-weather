@@ -60,7 +60,7 @@ services:
     labels:
       - traefik.http.routers.traefik.rule=Host(`${TF_VAR_VM_DOMAIN_NAME}.${TF_VAR_LOCATION}.cloudapp.azure.com`) && PathPrefix(`/dashboard`)
       - traefik.http.routers.traefik.service=api@internal
-      - traefik.http.routers.traefik.middlewares=auth,traefik
+      - traefik.http.routers.traefik.middlewares=auth
       # - traefik.http.middlewares.traefik.stripprefix.prefixes="/traefik"
       - "traefik.http.middlewares.auth.basicauth.users=admin:$$2y$$10$$jiNkcnNkYiW6OJETlYJ4W.JufWIBAj4cceuUaXfIkitItvUkMDWJe"
     ports:
