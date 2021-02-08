@@ -37,7 +37,3 @@ services:
       - ./grafana/provisioning/:/etc/grafana/provisioning/
       - ./grafana/grafana.ini:/etc/grafana/grafana.ini
     restart: always
-
-volumes:
-  prometheus:
-  grafana:
