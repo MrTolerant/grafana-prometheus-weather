@@ -55,7 +55,7 @@ deploy:
     - cd docker
     - docker-compose up -d
   tags:
-    - azure
+    - traefik
 
 destroy:
   needs: []
