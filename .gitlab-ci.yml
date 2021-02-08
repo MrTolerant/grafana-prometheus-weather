@@ -51,13 +51,13 @@ deploy:
   stage: deploy
   before_script: []
   script:
-    - pwd
     - cd docker
     - docker-compose up -d
   tags:
     - azure
 
 destroy:
+  needs: []
   stage: destroy
   script:
     - terraform destroy -auto-approve
